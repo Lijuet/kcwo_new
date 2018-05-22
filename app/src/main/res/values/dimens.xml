@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="topBannerText">20dp</dimen>
+    <dimen name="topBannerValue">18dp</dimen>
+    <dimen name="topBannerBudget">20dp</dimen>
+    <dimen name="listName">23dp</dimen>
+    <dimen name="listValue">20dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>
