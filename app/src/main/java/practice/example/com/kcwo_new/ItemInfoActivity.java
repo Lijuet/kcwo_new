@@ -15,7 +15,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class ItemInfoActivity extends AppCompatActivity {
@@ -27,7 +31,7 @@ public class ItemInfoActivity extends AppCompatActivity {
 
     String type;
 
-    private Date date;
+    private Calendar date;
 
     //인덴트 불로오기
     Intent intent;
@@ -47,6 +51,7 @@ public class ItemInfoActivity extends AppCompatActivity {
         btnComplete = (Button)findViewById(R.id.itemInfo_btnComplete);
         editName = (EditText)findViewById(R.id.itemInfo_editName);
         editValue = (EditText)findViewById(R.id.itemInfo_editValue);
+        editDate = (EditText)findViewById(R.id.itemInfo_editDate);
 
         //인덴트 설정
         intent_ItemInfoToMain = new Intent();
@@ -64,9 +69,12 @@ public class ItemInfoActivity extends AppCompatActivity {
             }else if(item.getType().equals("지출")){
                 rbtnIncome.setChecked(false);
                 rbtnExpense.setChecked(true);
-
             }
+            date = Calendar.getInstance();
+            date = item.getDate();
+            String strDate = String.format("%d-%d-%d", date.get(Calendar.YEAR), date.get(Calendar.MONTH) + 1, date.get(Calendar.DATE));
 
+            editDate.setText(strDate);
         }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -77,17 +85,26 @@ public class ItemInfoActivity extends AppCompatActivity {
                         String name = editName.getText().toString();
                         int value = Integer.parseInt(editValue.getText().toString());
 
+                        try {
+                            Calendar date = Calendar.getInstance();
+                            String date_string = editDate.getText().toString();
+                            SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                            date.setTime(sdFormat.parse(date_string));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
                         if(rbtnIncome.isChecked()) type = "수입";
                         else type = "지출";
 
                         //값 전달
                         if(!edit_mode) {//새로운 항목 만들어 인덴트에 추가하여 전달
-                            intent_ItemInfoToMain.putExtra("ADDINFO", new ItemClass(name,value,type));
+                            intent_ItemInfoToMain.putExtra("ADDINFO", new ItemClass(name,value,type,date));
                             setResult(add_mode_set, intent_ItemInfoToMain);
                         }
                         else {//기존 인덴트 속 아이템 꺼내와 변경하기
                             intent_ItemInfoToMain.putExtra("POSITION",intent.getIntExtra("POSITION",-1));
-                            intent_ItemInfoToMain.putExtra("EDITINFO", new ItemClass(name,value,type));
+                            intent_ItemInfoToMain.putExtra("EDITINFO", new ItemClass(name,value,type,date));
                             setResult(edit_mode_set, intent_ItemInfoToMain);
                         }
                         finish();

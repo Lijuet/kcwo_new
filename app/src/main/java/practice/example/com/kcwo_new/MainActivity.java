@@ -1,11 +1,8 @@
 package practice.example.com.kcwo_new;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -30,6 +26,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         adapter = new ItemAdapter(this, R.layout.custom_view_item,  new ArrayList<ItemClass>());
         adapter.initForTest();//임시 초기값 확인
 
@@ -41,6 +38,8 @@ public class MainActivity extends AppCompatActivity{
         currentMoney = findViewById(R.id.value_current);
         income = findViewById(R.id.value_income);
         expense = findViewById(R.id.value_expense);
+
+        updateUpperInfor();
 
         //클릭리스너 객체 생성
         View.OnClickListener listener = new View.OnClickListener(){
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         if (resultCode == add_mode_set) {
             adapter.addItem((ItemClass) intent.getSerializableExtra("ADDINFO"));
-            adapter.dataChanged();
         } else if (resultCode == edit_mode_set) {
             ItemClass editItem = (ItemClass) intent.getSerializableExtra("EDITINFO");
             int pos = intent.getIntExtra("POSITION", -1);
@@ -89,8 +87,17 @@ public class MainActivity extends AppCompatActivity{
                 adapter.getItem(pos).setName(editItem.getName());
                 adapter.getItem(pos).setValue(editItem.getValue());
                 adapter.getItem(pos).setType(editItem.getType());
+                adapter.getItem(pos).setDate(editItem.getDate());
+                Toast.makeText(this, adapter.getItem(pos).getDate().DATE, Toast.LENGTH_SHORT).show();
             } else Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-            adapter.dataChanged();
         }
+        adapter.dataChanged();
+        updateUpperInfor();
+    }
+
+    public void updateUpperInfor(){
+        currentMoney.setText(String.valueOf(adapter.calCurrentMoney()));
+        income.setText(String.valueOf(adapter.calTotalIncome()));
+        expense.setText(String.valueOf(adapter.calTotalExpense()));
     }
 }
