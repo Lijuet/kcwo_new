@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ItemAdapter extends ArrayAdapter<ItemClass> {
     Context context;
@@ -73,15 +76,47 @@ public class ItemAdapter extends ArrayAdapter<ItemClass> {
 
     public void initForTest(){//처음에 파일 읽어오기
         //1개의 데이터 추가
-        datas.add(new ItemClass("빼빼로",1300,"지출"));
-        datas.add(new ItemClass("용돈",50000,"수입"));
+        Calendar date = Calendar.getInstance();
+        date.set(2017,10,5);
+        datas.add(new ItemClass("빼빼로",1300,"지출",date));
+        Calendar date2 = Calendar.getInstance();
+        date2.set(2017,11,15);
+        datas.add(new ItemClass("용돈",50000,"수입",date2));
     }
 
-    public void dataChanged(){ this.notifyDataSetChanged(); }
+    public void dataChanged(){
+        this.notifyDataSetChanged();
+        Collections.sort(datas, (ItemClass item1, ItemClass item2) -> item1.getDate().compareTo(item2.getDate()));
+    }
 
     public void addItem(ItemClass item){ datas.add(item); }
 
     public void removeItem(int position){
         datas.remove(position);
+    }
+
+    public int calTotalIncome(){
+        int incomeSum = 0;
+        ItemClass temp;
+        for(int i = 0; i < datas.size(); i++){
+            temp = datas.get(i);
+            if(temp.getType() == "수입") incomeSum += temp.getValue();
+        }
+        return incomeSum;
+    }
+
+    public int calTotalExpense(){
+        int expenseSum = 0;
+        ItemClass temp;
+        for(int i = 0; i < datas.size(); i++){
+            temp = datas.get(i);
+            if(temp.getType() == "지출") expenseSum += temp.getValue();
+        }
+        return expenseSum;
+
+    }
+
+    public int calCurrentMoney(){
+        return calTotalIncome() - calTotalExpense();
     }
 }

@@ -62,8 +62,17 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textSize="@dimen/topBannerValue"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/value_unit"
                 android:layout_alignBottom="@id/text_current" />
+            <TextView
+                android:id="@+id/currentMoney_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원"
+                android:textSize="@dimen/topBannerValue"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/text_current"
+                android:layout_marginLeft="5dp"/>
             <TextView
                 android:id="@+id/text_income"
                 android:layout_width="wrap_content"
@@ -79,8 +88,17 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textSize="@dimen/topBannerValue"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/value_unit"
                 android:layout_alignBottom="@id/text_income"/>
+            <TextView
+                android:id="@+id/value_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원"
+                android:textSize="@dimen/topBannerValue"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/text_income"
+                android:layout_marginLeft="5dp"/>
             <TextView
                 android:id="@+id/text_expense"
                 android:layout_width="wrap_content"
@@ -97,8 +115,17 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textSize="@dimen/topBannerValue"
+                android:layout_alignBottom="@id/text_expense"
+                android:layout_toLeftOf="@id/expense_unit"/>
+            <TextView
+                android:id="@+id/expense_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원"
+                android:textSize="@dimen/topBannerValue"
                 android:layout_alignParentRight="true"
-                android:layout_alignBottom="@id/text_expense"/>
+                android:layout_alignBottom="@id/text_expense"
+                android:layout_marginLeft="5dp"/>
         </RelativeLayout>
 
     </LinearLayout>
