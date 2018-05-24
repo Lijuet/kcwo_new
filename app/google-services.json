@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "532889104545",
+    "firebase_url": "https://kcwonew-c6841.firebaseio.com",
+    "project_id": "kcwonew-c6841",
+    "storage_bucket": "kcwonew-c6841.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532889104545:android:08478f494aab553a",
+        "android_client_info": {
+          "package_name": "practice.example.com.kcwo_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532889104545-hap08bmu97mbmeq2ma5gsakg4jnnvucg.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "532889104545-hap08bmu97mbmeq2ma5gsakg4jnnvucg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6z38-4utsxJDc6GD3eawLBtkJaDT4p6U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
