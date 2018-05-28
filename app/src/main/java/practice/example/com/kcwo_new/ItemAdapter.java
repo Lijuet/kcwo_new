@@ -3,6 +3,7 @@ package practice.example.com.kcwo_new;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,17 +83,30 @@ public class ItemAdapter extends ArrayAdapter<ItemClass> {
         Calendar date2 = Calendar.getInstance();
         date2.set(2017,11,15);
         datas.add(new ItemClass("용돈",50000,"수입",date2));
+        Calendar date3 = Calendar.getInstance();
+        date3.set(2017,9,01);
+        datas.add(new ItemClass("음료수",2000,"지출",date3));
     }
 
     public void dataChanged(){
+        sortList();
         this.notifyDataSetChanged();
-        Collections.sort(datas, (ItemClass item1, ItemClass item2) -> item1.getDate().compareTo(item2.getDate()));
     }
 
     public void addItem(ItemClass item){ datas.add(item); }
 
     public void removeItem(int position){
         datas.remove(position);
+    }
+
+    public void updateFirebase(){
+        //data에 넣는 작업
+        dataChanged();
+    }
+
+    public void sortList() {
+        Collections.sort(datas, (ItemClass item1, ItemClass item2) -> item1.getDate().compareTo(item2.getDate()));
+        dataChanged();
     }
 
     public int calTotalIncome(){
@@ -102,6 +116,7 @@ public class ItemAdapter extends ArrayAdapter<ItemClass> {
             temp = datas.get(i);
             if(temp.getType() == "수입") incomeSum += temp.getValue();
         }
+
         return incomeSum;
     }
 

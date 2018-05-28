@@ -3,6 +3,7 @@ package practice.example.com.kcwo_new;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,12 +21,12 @@ public class MainActivity extends AppCompatActivity{
     TextView budget, currentMoney;
     TextView income, expense;
     ListView listView;
+    Statistics statistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         adapter = new ItemAdapter(this, R.layout.custom_view_item,  new ArrayList<ItemClass>());
         adapter.initForTest();//임시 초기값 확인
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity{
         currentMoney = findViewById(R.id.value_current);
         income = findViewById(R.id.value_income);
         expense = findViewById(R.id.value_expense);
-
-        updateUpperInfor();
 
         //클릭리스너 객체 생성
         View.OnClickListener listener = new View.OnClickListener(){
@@ -56,9 +55,9 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         };
-
         //어댑터 설정
         listView.setAdapter(adapter);
+
 
         //아이템 수정화면으로
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,8 +71,31 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        //슬라이드 삭제
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(listView,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    adapter.removeItem(position);
+                                }
+                                adapter.dataChanged();
+                            }
+                        });
+
+        listView.setOnTouchListener(touchListener);
+        listView.setOnScrollListener(touchListener.makeScrollListener());
         btn_add.setOnClickListener(listener);
         btn_statistic.setOnClickListener(listener);
+
+        statistics = new Statistics();
+        updateMiniStatistics();
     }
 
     @Override
@@ -92,12 +114,16 @@ public class MainActivity extends AppCompatActivity{
             } else Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
         adapter.dataChanged();
-        updateUpperInfor();
+        updateMiniStatistics();
     }
 
-    public void updateUpperInfor(){
-        currentMoney.setText(String.valueOf(adapter.calCurrentMoney()));
-        income.setText(String.valueOf(adapter.calTotalIncome()));
-        expense.setText(String.valueOf(adapter.calTotalExpense()));
+    public void updateMiniStatistics(){
+        statistics.setTotalIncome(adapter.calTotalIncome());
+        statistics.setTotalExpense(adapter.calTotalExpense());
+        statistics.setCurrentMoney();
+
+        currentMoney.setText(String.valueOf(statistics.getCurrentMoney()));
+        income.setText(String.valueOf(statistics.getTotalIncome()));
+        expense.setText(String.valueOf(statistics.getTotalExpense()));
     }
 }
