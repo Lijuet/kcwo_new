@@ -22,6 +22,7 @@ public class Statistics {
     public void setCurrentMoney(){ this.currentMoney = totalIncome - totalExpense; }
 
     public int getBudget(){ return budget; }
+    public int getCalculatedBudget(){ return budget - totalExpense; }
     public int getTotalIncome(){ return totalIncome; }
     public int getTotalExpense(){ return totalExpense; }
     public int getCurrentMoney(){ return currentMoney; }

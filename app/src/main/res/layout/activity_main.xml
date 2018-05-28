@@ -12,10 +12,9 @@
         android:background="@color/colorTopBanner"
         android:orientation="horizontal"
         android:gravity="center_vertical">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="2">
             <TextView
                 android:id="@+id/text_budget"
@@ -34,10 +33,19 @@
                 android:layout_below="@id/text_budget"
                 android:layout_alignLeft="@id/text_budget"
                 android:layout_marginTop="5dp"
-                android:paddingLeft="20dp"
-                android:text="test_value 원"
+                android:paddingLeft="10dp"
+                android:text="test_value"
                 android:textSize="@dimen/topBannerBudget"/>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/value_unit0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원"
+                android:textSize="@dimen/topBannerValue"
+                android:layout_toRightOf="@id/value_budget"
+                android:layout_alignTop="@id/value_budget"
+                android:layout_marginLeft="5dp"/>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"

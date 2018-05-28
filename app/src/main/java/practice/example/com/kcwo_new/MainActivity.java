@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        statistics = new Statistics();
+
         adapter = new ItemAdapter(this, R.layout.custom_view_item,  new ArrayList<ItemClass>());
         adapter.initForTest();//임시 초기값 확인
 
@@ -86,6 +89,10 @@ public class MainActivity extends AppCompatActivity{
                                     adapter.removeItem(position);
                                 }
                                 adapter.dataChanged();
+
+                                Toast.makeText(getApplicationContext(),"dismiss2",Toast.LENGTH_SHORT).show();
+                                updateMiniStatistics();
+
                             }
                         });
 
@@ -94,7 +101,6 @@ public class MainActivity extends AppCompatActivity{
         btn_add.setOnClickListener(listener);
         btn_statistic.setOnClickListener(listener);
 
-        statistics = new Statistics();
         updateMiniStatistics();
     }
 
@@ -113,6 +119,7 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(this, adapter.getItem(pos).getDate().DATE, Toast.LENGTH_SHORT).show();
             } else Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
+
         adapter.dataChanged();
         updateMiniStatistics();
     }
@@ -125,5 +132,6 @@ public class MainActivity extends AppCompatActivity{
         currentMoney.setText(String.valueOf(statistics.getCurrentMoney()));
         income.setText(String.valueOf(statistics.getTotalIncome()));
         expense.setText(String.valueOf(statistics.getTotalExpense()));
+        budget.setText(String.valueOf(statistics.getCalculatedBudget()));
     }
 }

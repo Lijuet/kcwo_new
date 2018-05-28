@@ -106,7 +106,6 @@ public class ItemAdapter extends ArrayAdapter<ItemClass> {
 
     public void sortList() {
         Collections.sort(datas, (ItemClass item1, ItemClass item2) -> item1.getDate().compareTo(item2.getDate()));
-        dataChanged();
     }
 
     public int calTotalIncome(){
