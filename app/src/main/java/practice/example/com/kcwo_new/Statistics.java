@@ -3,7 +3,9 @@ package practice.example.com.kcwo_new;
 
 import android.util.Log;
 
-public class Statistics {
+import java.io.Serializable;
+
+public class Statistics implements Serializable{
     private int budget;
     private int totalIncome;
     private int totalExpense;

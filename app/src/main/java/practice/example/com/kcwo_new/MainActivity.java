@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity{
                         startActivityForResult(intent_MainToAdd,0);
                         break;
                     case R.id.button_statistic:
-                        Toast.makeText(getApplicationContext(),"통계화면으로",Toast.LENGTH_SHORT).show();
+                        Intent intent_MainToStatistics = new Intent(MainActivity.this, StatisticsActivity.class);
+                        intent_MainToStatistics.putExtra("STATISTICS",statistics);
+                        startActivity(intent_MainToStatistics);
                         break;
                     case R.id.value_budget:
                         AlertDialog.Builder budgetDialog = new AlertDialog.Builder(MainActivity.this);
