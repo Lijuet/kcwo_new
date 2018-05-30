@@ -12,5 +12,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGray">#D8D8D8</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorWarning">#ff0000</color>
+    <color name="colorSoso">#0b6623</color>
+    <color name="colorSafe">#1652a6</color>
 
 </resources>

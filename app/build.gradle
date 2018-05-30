@@ -37,8 +37,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.1'
 
     //인증 기능을 담당하는 파이어베이스 인증 모듈, 구글플레이서비스 인증 기능 의존
-    compile 'com.google.firebase:firebase-auth:16.0.1'
-    compile 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

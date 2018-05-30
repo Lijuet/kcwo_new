@@ -1,12 +1,15 @@
 package practice.example.com.kcwo_new;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +58,33 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.button_statistic:
                         Toast.makeText(getApplicationContext(),"통계화면으로",Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.value_budget:
+                        AlertDialog.Builder budgetDialog = new AlertDialog.Builder(MainActivity.this);
+
+                        budgetDialog.setTitle("예산 변경하기");       // 제목 설정
+                        budgetDialog.setMessage("예산을 다시 설정하시오");   // 내용 설정
+
+                        final EditText et = new EditText(MainActivity.this);
+                        et.setText(String.valueOf(statistics.getBudget()));
+                        budgetDialog.setView(et);
+
+                        budgetDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                int budget = Integer.parseInt(et.getText().toString());
+                                statistics.setBudget(budget);
+                                updateMiniStatistics();
+                                dialog.dismiss();
+                            }
+                        });
+
+                        budgetDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        budgetDialog.show();
                 }
             }
         };
@@ -85,14 +115,12 @@ public class MainActivity extends AppCompatActivity{
 
                             @Override
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
+                                for (int position : reverseSortedPositions)
                                     adapter.removeItem(position);
-                                }
                                 adapter.dataChanged();
 
                                 Toast.makeText(getApplicationContext(),"dismiss2",Toast.LENGTH_SHORT).show();
                                 updateMiniStatistics();
-
                             }
                         });
 
@@ -100,6 +128,7 @@ public class MainActivity extends AppCompatActivity{
         listView.setOnScrollListener(touchListener.makeScrollListener());
         btn_add.setOnClickListener(listener);
         btn_statistic.setOnClickListener(listener);
+        budget.setOnClickListener(listener);
 
         updateMiniStatistics();
     }
@@ -132,6 +161,10 @@ public class MainActivity extends AppCompatActivity{
         currentMoney.setText(String.valueOf(statistics.getCurrentMoney()));
         income.setText(String.valueOf(statistics.getTotalIncome()));
         expense.setText(String.valueOf(statistics.getTotalExpense()));
+
         budget.setText(String.valueOf(statistics.getCalculatedBudget()));
+        if(statistics.getTotalExpense() >= statistics.getBudget() * 0.7) budget.setTextColor(getApplicationContext().getResources().getColor(R.color.colorWarning));
+        else if(statistics.getTotalExpense() >= statistics.getBudget() * 0.4) budget.setTextColor(getApplicationContext().getResources().getColor(R.color.colorSoso));
+        else budget.setTextColor(getApplicationContext().getResources().getColor(R.color.colorSafe));
     }
 }
